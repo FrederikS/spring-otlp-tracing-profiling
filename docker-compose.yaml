@@ -3,7 +3,7 @@ services:
 
   tempo:
     image: grafana/tempo:latest
-    extra_hosts: ['host.docker.internal:host-gateway']
+#    extra_hosts: ['host.containers.internal:host-gateway']
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
       - ./tempo.yaml:/etc/tempo.yaml
@@ -17,7 +17,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    extra_hosts: ['host.docker.internal:host-gateway']
+#    extra_hosts: ['host.containers.internal:host-gateway']
     command:
       - --config.file=/etc/prometheus.yaml
       - --web.enable-remote-write-receiver
@@ -29,7 +29,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    extra_hosts: ['host.docker.internal:host-gateway']
+#    extra_hosts: ['host.containers.internal:host-gateway']
     volumes:
       - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     environment:
@@ -39,3 +39,11 @@ services:
       - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
     ports:
       - "3000:3000"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tracing
+    ports:
+      - "5432:5432"
