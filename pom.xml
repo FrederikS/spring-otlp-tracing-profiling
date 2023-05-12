@@ -15,12 +15,13 @@
     <description>spring-tracing</description>
     <properties>
         <java.version>17</java.version>
+        <opentelemetry.version>1.26.0</opentelemetry.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-bom</artifactId>
-            <version>1.26.0</version>
+            <version>${opentelemetry.version}</version>
             <type>pom</type>
         </dependency>
 
@@ -75,5 +76,45 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>profiling</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>io.opentelemetry.javaagent</groupId>
+                                            <artifactId>opentelemetry-javaagent</artifactId>
+                                            <version>${opentelemetry.version}</version>
+                                            <type>jar</type>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <agents>${project.build.directory}/opentelemetry-javaagent-${opentelemetry.version}.jar</agents>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
