@@ -110,6 +110,11 @@
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <configuration>
                             <agents>${project.build.directory}/opentelemetry-javaagent-${opentelemetry.version}.jar</agents>
+                            <systemPropertyVariables>
+                                <otel.traces.exporter>otlp</otel.traces.exporter>
+                                <otel.metrics.exporter>none</otel.metrics.exporter>
+                                <otel.logs.exporter>none</otel.logs.exporter>
+                            </systemPropertyVariables>
                         </configuration>
                     </plugin>
                 </plugins>
