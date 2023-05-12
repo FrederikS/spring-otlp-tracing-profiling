@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>spring-tracing</artifactId>
+    <artifactId>spring-otlp-tracing-profiling</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-tracing</name>
-    <description>spring-tracing</description>
+    <name>spring-otlp-tracing-profiling</name>
+    <description>spring-otlp-tracing-profiling</description>
     <properties>
         <java.version>17</java.version>
         <opentelemetry.version>1.26.0</opentelemetry.version>
